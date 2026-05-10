@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Formação Gestor de Milhas</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:#f8fafc;color:#0f172a;font-family:'Inter',sans-serif;min-height:100vh;}
+button{cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;}
+input,textarea{font-family:'Inter',sans-serif;}
+input:focus,textarea:focus{outline:none;}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:2px;}
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,0.97);backdrop-filter:blur(8px);border-bottom:1px solid #e2e8f0;padding:0 20px;}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:700px;margin:0 auto;padding:12px 0;}
+.logo{display:flex;align-items:center;gap:8px;}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:17px;}
+.logo-text{font-size:14px;font-weight:600;color:#0f172a;}
+.logo-badge{font-size:10px;color:#534AB7;background:#EEEDFE;padding:2px 8px;border-radius:20px;}
+.nav-btns{display:flex;gap:4px;align-items:center;}
+.nav-btn{padding:7px 12px;border-radius:8px;font-size:11px;border:1px solid transparent;background:transparent;color:#64748b;}
+.nav-btn.active{background:#EEEDFE;border-color:#534AB7;color:#534AB7;font-weight:500;}
+.exit-btn{padding:7px 10px;background:none;border:none;color:#94a3b8;font-size:11px;}
+.main{max-width:700px;margin:0 auto;padding:16px 20px 80px;}
+.pill-tabs{display:flex;overflow-x:auto;gap:6px;padding-bottom:6px;margin-bottom:16px;scrollbar-width:none;}
+.pill-tabs::-webkit-scrollbar{display:none;}
+.pill{padding:6px 14px;border-radius:20px;font-size:11px;border:1px solid #e2e8f0;background:#fff;color:#64748b;white-space:nowrap;}
+.pilar-card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;overflow:hidden;margin-bottom:12px;}
+.pilar-header{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid #f1f5f9;}
+.pilar-icon{font-size:22px;}
+.pilar-title{font-size:16px;font-weight:500;flex:1;}
+.pilar-count{font-size:10px;padding:2px 10px;border-radius:20px;font-weight:500;}
+.progress-bar{height:4px;background:#f1f5f9;}
+.progress-fill{height:100%;transition:width 0.4s;}
+.topico{border-bottom:1px solid #f8fafc;}
+.topico:last-child{border-bottom:none;}
+.topico-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none;}
+.topico-header:hover{background:#f8fafc;}
+.check{width:18px;height:18px;border-radius:5px;border:1.5px solid #cbd5e1;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.check.done{border-color:#1D9E75;background:#1D9E75;color:#fff;font-size:11px;}
+.topico-title{flex:1;font-size:13px;font-weight:500;}
+.topico-arrow{color:#94a3b8;font-size:16px;transition:transform 0.2s;line-height:1;}
+.topico-body{padding:0 16px 14px 44px;display:none;}
+.topico-body.open{display:block;}
+.topico-desc{font-size:12px;color:#64748b;line-height:1.7;margin-bottom:8px;}
+.item-line{font-size:11.5px;color:#475569;padding:3px 0 3px 10px;margin-bottom:3px;line-height:1.5;}
+.admin-row{display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;}
+.abtn{font-size:10px;padding:4px 10px;border-radius:6px;border:1px solid #e2e8f0;background:#f8fafc;color:#64748b;}
+.abtn.danger{border-color:#fca5a5;color:#A32D2D;}
+.add-topico{display:flex;align-items:center;gap:6px;padding:10px 16px;width:100%;background:none;border:none;border-top:1px solid #f1f5f9;color:#94a3b8;font-size:12px;}
+.add-topico:hover{background:#f8fafc;color:#64748b;}
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,0.5);z-index:999;display:flex;align-items:flex-end;}
+.modal{background:#fff;width:100%;max-height:82vh;overflow-y:auto;border-radius:20px 20px 0 0;padding:24px;box-shadow:0 -4px 24px rgba(0,0,0,0.1);}
+.modal-title{font-size:15px;font-weight:500;margin-bottom:16px;}
+.field{margin-bottom:10px;}
+.field label{font-size:11px;color:#64748b;display:block;margin-bottom:5px;}
+.field input,.field textarea{width:100%;padding:9px 12px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:13px;color:#0f172a;}
+.field textarea{min-height:90px;resize:vertical;}
+.mfooter{display:flex;gap:8px;margin-top:14px;}
+.btn-p{flex:1;padding:10px;background:#534AB7;border:none;color:#fff;border-radius:8px;font-size:13px;}
+.btn-c{flex:1;padding:10px;background:#f8fafc;border:1px solid #e2e8f0;color:#64748b;border-radius:8px;font-size:13px;}
+.login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;}
+.login-box{width:100%;max-width:340px;text-align:center;}
+.l-icon{width:56px;height:56px;border-radius:16px;background:#EEEDFE;display:flex;align-items:center;justify-content:center;margin:0 auto 14px;font-size:28px;}
+.l-card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:24px;text-align:left;}
+.l-input{width:100%;padding:12px 14px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:8px;font-size:14px;margin-bottom:12px;}
+.l-btn{width:100%;padding:12px;background:#534AB7;border:none;color:#fff;border-radius:8px;font-size:14px;font-weight:500;}
+.l-err{font-size:12px;color:#A32D2D;margin-bottom:10px;display:none;}
+.stag{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:#94a3b8;margin-top:20px;margin-bottom:8px;}
+.c-card{background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:14px 16px;margin-bottom:10px;}
+.rrow{display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:5px;}
+.rbtn{font-size:11px;padding:5px 12px;background:#FAEEDA;border:1px solid #854F0B;color:#412402;border-radius:6px;}
+.r-all{width:100%;padding:10px;background:#FCEBEB;border:1px solid #A32D2D;color:#501313;border-radius:8px;font-size:12px;margin-top:8px;}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:10px 20px;border-radius:20px;font-size:12px;z-index:9999;pointer-events:none;opacity:0;transition:opacity 0.3s;}
+.toast.on{opacity:1;}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<div class="toast" id="toast"></div>
+<script>
+const DEF=[
+  {id:'comece',nome:'Comece Aqui',icon:'🏁',cor:'#534AB7',bg:'#EEEDFE',tc:'#26215C',topicos:[
+    {id:'t1',titulo:'Mentorias ao Vivo — 4 tipos',desc:'Tutorias exclusivas por fase e especialidade.',itens:['Tutoria Operacional com Saulo — 100% foco em processos e entrega','Tutoria de Emissões com Caio — tema específico por mês + dúvidas','Call com membro convidado','Fase 1 (lucro abaixo de R$15k) → 20h | Fase 2 (acima de R$15k) → 19h','Cronograma enviado no dia 1 de cada mês — Terças']},
+    {id:'t2',titulo:'Acompanhamento Personalizado',desc:'Entre dias 5 a 10 de cada mês você será perguntado sobre resultado.',itens:['Lucro com gestão / agência / consultoria','O que impediu de lucrar mais no mês anterior','Direcionamentos personalizados no privado','2 meses sem responder = fora do acompanhamento']},
+    {id:'t3',titulo:'3 Noites em Gramado',desc:'Indique um conhecido que compre a formação e ganhe 3 noites em Gramado para 4 pessoas.',itens:['Indicação de milherio','Indicação de agente de viagem','Indicação de gestor de milhas']},
+    {id:'t4',titulo:'Guia de Aulas + Suporte',desc:'IA para direcionar qual aula assistir. Link direto com a Lu para suporte.',itens:['IA de direcionamento de aulas','Contato suporte via WhatsApp da Lu','Envio de depoimentos']},
+  ]},
+  {id:'comercial',nome:'Comercial',icon:'💼',cor:'#185FA5',bg:'#E6F1FB',tc:'#042C53',topicos:[
+    {id:'t1',titulo:'Conceitos — 5 passos + 4 Fases',desc:'5 passos para se tornar vendedor de sucesso e as 4 fases DASI de uma venda matadora.',itens:['1. Conheça 100% o produto (benefícios, diferenciais, entregáveis, transformação)','2. Conheça 100% o público (dores, dúvidas, desejos, objeções, concorrência)','3. O bom vendedor não começa — apenas auxilia','4. Trate o cliente como ele quer ser tratado (áudio/texto/ligação/call)','5. O não faz parte do processo — 3 coisas sobre o não','4 Fases: D (Qualificação) → A (Diagnóstico) → S (Valor) → I (Fechamento com segurança)','10 coisas que fazem uma pessoa perder venda']},
+    {id:'t2',titulo:'Scripts de Venda — 9 tipos',desc:'Scripts completos para cada canal e situação.',itens:['Prospecção Fria (Instagram e abordagem direta)','Call de Vendas / Reunião Presencial (3 etapas: qualificação → apresentação → pitch)','Áudio/Texto / Ligação','Social Selling Instagram: Voto Enquete · View Stories · Comentário · Novo Seguidor','Estratégias para Recuperar Lead: Áudio Fake · Follow Up · Presente · Cartada Final','Consultoria','Travel (alertas)','Parcerias','Influencer (3 stories prontos + scripts de feed)']},
+    {id:'t3',titulo:'Transformando 1 cliente em outro',desc:'Sistema completo de indicações para escalar sem prospecção fria.',itens:['Entendendo o Fluxo de Indicação (3 momentos principais)','Como transformar 1 cliente em +1 (fases do engajamento)','O que fazer com a indicação recebida (3 mensagens prontas)','Como pedir indicação ao longo de 12 meses','Fluxo: Novo contato → 24h → ligar → no-show → follow-up → WhatsApp','Meta: 1 indicação a cada 3 meses por cliente','Quando dar graça: ofereça travel ou consultoria como alternativa']},
+    {id:'t4',titulo:'O que fazer quando — 12 objeções',desc:'Cada objeção mapeada com o que fazer, o que dizer e qual o objetivo.',itens:['"Vou falar com o marido/esposa" → conduza como call a dois','Vai pensar e depois responde → validar preço percebido + urgência','Achou caro → âncora + garantia de ROI comprovado','"Quer comparar com agência" → estratégia de diferenciação','Some após parecer interessado → mensagem personalizada + áudio','Já usa milhas e não precisa → mostrar o que não pratica ainda','Não tem tempo agora → reframe do tempo como argumento de valor','Quer ver exemplos antes → 1-2 casos do mesmo perfil','"Vou acumular mais primeiro" → custo de oportunidade','Graça ou valor menor → ofereça travel ou consultoria','Não aceita boleto/cartão → link de pagamento alternativo','Desconfia da operação → prova social + garantia explícita']},
+  ]},
+  {id:'marketing',nome:'Marketing',icon:'📱',cor:'#993C1D',bg:'#FAECE7',tc:'#4A1B0C',topicos:[
+    {id:'t1',titulo:'Destruidor de Negócios',desc:'4 pilares que destroem silenciosamente o negócio do gestor.',itens:['1. Não conhecer o produto que está vendendo (gera insegurança e perde autoridade)','2. Não ser a prova viva do que vende (linguagem, postura, estilo de vida)','3. Vitrine errada — Instagram e presença presencial passando imagem incompatível','4. Não entender marketing: básico = gerar demanda qualificada, não seguidores']},
+    {id:'t2',titulo:'Networking Ativo — 10 regras + 5 estratégias',desc:'Construção de rede de contatos de alto perfil de forma intencional.',itens:['10 regras: interesse genuíno, usar o nome, ouvir mais que falar, sorrir, terreno comum','6 principais erros: falar demais, sem objetivo, vender sempre, sem identificação pessoal','5 estratégias infalíveis: ser referência no grupo, eventos grandes, contatos indiretos, Serve-Serve-Serve, intencionalidade','Onde fazer: hotéis premium, eventos presenciais, sendo cliente de serviços caros, academia premium','ChatGPT prompt para networking lucrativo (disponível no mapa)']},
+    {id:'t3',titulo:'Instagram Vendedor — do zero em 7 dias',desc:'Estrutura completa para montar um perfil que vende todos os dias.',itens:['Por que usar Instagram no negócio (alcance · autoridade · construção de relacionamento)','8 regras básicas de posicionamento (o que funciona e o que NÃO funciona)','BIO — Cara de Pix: Linha 1 transformação · Linha 2 autoridade · Linha 3 CTA','Link na BIO (link em árvore) + 5 tipos de Destaques','3 Posts fixados + 6 Posts de Feed iniciais (UAU / Social Proof / Família)','Frequência: 70% conhecimento / 30% venda']},
+    {id:'t4',titulo:'Produção de Conteúdo Feed + Stories',desc:'7 tipos de Reels com objetivos, como fazer e por que funciona.',itens:['Fase 0-3 meses: Palco do Impacto · Exposição · Promessa Transformadora · Mostre Você · CTA','Fase 3-6 meses: Expansão + Consolidação (carrosseis + Reels educativos)','Fase 6-12 meses: Autoridade + Escala (posicionamento premium)','Stories: Estrutura → Carroussel → Carinha do Business → Promessa → Mostre Você → CTA','Onde encontrar designer (requisitos + preço + entrega) e editor de vídeo']},
+    {id:'t5',titulo:'6 Formas de Gerar Lead Qualificado',desc:'Do orgânico ao pago — todas as formas com dados reais.',itens:['1. Conteúdo Orgânico: quando impulsionar, qual objetivo, segmentação','2. Impulsionamento: Gênero · Idade 25 · Interesses (Itaú/Mastercard) · R$30/dia para começar','3. Parcerias: Básico (cabeleireiro/barbeiro) → Avançado (celebridades de milhas)','4. Influenciadores: perfil ideal, o que analisar, quanto pagar, ROI esperado','5. Patrocínio em eventos e imersões: formulário + tipos de slots + dicas','6. Mídia Regional e Panfletagem: R$150-200/dia · 300 panfletos/dia · lucro por venda R$5k']},
+  ]},
+  {id:'operacional',nome:'Operacional',icon:'⚙️',cor:'#1D9E75',bg:'#E1F5EE',tc:'#085041',topicos:[
+    {id:'t1',titulo:'Pré-Call — 7 etapas no CRM',desc:'Tudo que deve ser feito antes da call de onboarding.',itens:['1. Cliente faz a compra','2. Envio do formulário','3. CRM Formulário Preenchido: verificar, adicionar milhas e programas','4. CRM Montar Estratégia: criar conteúdo de estratégia + mover','5. CRM Criar Canva: montar baseado na estratégia','6. CRM Agendar Call: enviar link da agenda','7. CRM Aguardando Call: avisar horário no quadro de demandas','⚠️ Erros: formulário incompleto, cliente demorar para agendar']},
+    {id:'t2',titulo:'Call de Onboarding — Parte Técnica + Prática',desc:'O que fazer durante a call com o novo cliente de gestão.',itens:['Técnica: o que faremos, alinhamento de expectativas, ROI, formas de acumular, fases','Prática: logins e senhas, interesses de viagem, consultoria do cartão, projeção de acúmulo, saldo atual, melhores clubes','⚠️ Erros: chegar sem logins prontos, criar expectativas erradas, não ter formulário respondido']},
+    {id:'t3',titulo:'Pós-Call — 9 etapas obrigatórias',desc:'Tudo que deve ser feito imediatamente após a call.',itens:['1. Enviar PDF da call para o cliente','2. Confirmar senhas e pontuações nos programas','3. Verificar pontuação atual','4. Adicionar pontos a expirar','5. Adicionar Clube caso tenha','6. Cadastrar Interesses de Viagem','7. Lançar senhas no 1Password','8. Preencher cartão solicitado no CRM + prazo','9. Cobrar indicações','⚠️ Erros: esquecer 1Password, não cadastrar pontos, data errada, não cobrar indicações']},
+    {id:'t4',titulo:'Dia a Dia Fixo — rotina obrigatória',desc:'Executar todos os dias, em horários fixos.',itens:['CRM: verificar clientes em cada fase','Demandas: Manual / Via Formulário / A partir de Ação','Promoções Direcionadas: antes de 12h · 2x ao dia (Grupo Israel + alertas personalizados)','Check In: 48h antes do voo · 2x ao dia (manhã e noite)','Pontos a Expirar: 1x ao dia · Gifts, Cupons, Produtos, Passagens','Aniversário: mensagem + verificar finais de semana na sexta','Mimo Hotel: ligar + solicitar mimo + cartinha da empresa no quarto','Resumo de Oportunidades: enviar na comunidade do Milho']},
+    {id:'t5',titulo:'Dia a Dia Esporádico',desc:'Ações conforme demanda do cliente.',itens:['Cotações: passagem e hospedagem','Emissões com milhas e com agência','Alteração / Cancelamento / Remarcação','Pós Emissão: Hotel + Seguro + Transfer + Aluguel de Carro','Compra de Milhas / Transferência Bonificada (apenas quando houver oportunidade)','Atualização de Saldo: 1x por mês']},
+    {id:'t6',titulo:'Formatos de Cotação + Seguro',desc:'Templates prontos para envio ao cliente.',itens:['Passagem com milhas: Print + milhas · Valor companhia · Valor a pagar · Economia · CTA','Passagem agência: Print Google Voos · Valor companhia · Valor conosco · Economia · CTA','Hotel com milhas: Print + milhas · Valor site · Taxa · Economia · CTA','Hotel agência: Print · Valor site · Valor conosco · Economia · CTA','Seguro: coletar dados → encaminhar para Comparar → enviar cotação ao cliente']},
+    {id:'t7',titulo:'Controle de CPM + Transferências',desc:'Como controlar custo por milheiro e lançamentos de transferência com bônus.',itens:['CPM = Custo total ÷ Milhas recebidas (incluindo bônus)','Exemplo: R$3.000 ÷ 200k Smiles (100% bônus) = R$15/milheiro','Lançamentos: (-) Livelo · (+) Smiles base com custo rateado · (+) Smiles bônus com custo rateado','Nunca lançar bônus com custo zero — distorce o CPM real','Compra bonificada: NUNCA faça pelo cliente — instrua no onboarding como ele mesmo faz']},
+  ]},
+  {id:'produto',nome:'Produto · Público · Preço',icon:'🎯',cor:'#854F0B',bg:'#FAEEDA',tc:'#412402',topicos:[
+    {id:'t1',titulo:'Os 3 Produtos do portfólio',desc:'Portfólio completo e quando usar cada produto.',itens:['Gestão de Milhas: 12 meses · tudo por cliente · 1 call pontual','Consultoria Tipo 1: 1 call + 30 dias suporte · R$500-3k','Consultoria Tipo 2: 2 calls + 90 dias suporte · R$750-3k','Travel (Alertas): R$297/ano · 50% comissão para afiliados · 4 grupos + IA','Regra: consultoria e travel são porta de entrada para gestão']},
+    {id:'t2',titulo:'Público-Alvo — Persona ideal',desc:'Perfil completo do cliente de gestão de milhas.',itens:['Idade: 30 a 50 anos','Profissões: Empreendedor, CEO, Médico, Advogado, Dentista premium, Infoprodutor, Gestor de patrimônio, Franqueado','Gasto mínimo: R$30k/mês no cartão · Mínimo 4 viagens/ano','Dores: falta de tempo, gasto excessivo, desorganização com milhas, frustração','Desejos: executiva barata, delegar planejamento, ter gestor pessoal de viagens']},
+    {id:'t3',titulo:'Tabela de Preços',desc:'Preços por perfil de cliente e regras de precificação.',itens:['R$20k gastos = 4 viagens → R$2.000/ano','R$28k gastos = 4 viagens → R$3.000/ano','R$40k gastos = 5 viagens → R$5.000/ano','R$80k gastos = 5 viagens → R$7.000/ano','R$120k gastos = 6 viagens → R$9.000/ano','Alunos da formação: mínimo R$3.000','Sempre cobrança recorrente mensal automática']},
+    {id:'t4',titulo:'Qualificação e triagem de clientes',desc:'Como identificar e separar cada tipo de cliente.',itens:['Formulário de pré-qualificação: dados, cartões, pontuação, viagens, renda','Gestão: quer delegar tudo, viaja 4x+/ano, gasta 30k+/mês no cartão','Consultoria: quer aprender algo pontual, viaja 1x/ano','Travel: rejeitou consultoria ou já domina milhas','Nunca ofereça gestão para quem não tem perfil']},
+  ]},
+  {id:'caixa',nome:'Caixa Rápido 30D',icon:'⚡',cor:'#C04B0A',bg:'#FAECE7',tc:'#4A1B0C',topicos:[
+    {id:'t1',titulo:'Como fazer R$5.000 em 30 dias',desc:'Estratégia prática para primeiros resultados.',itens:['Estratégia 1: Prospecção ativa na base existente (contatos, família, ex-clientes)','Estratégia 2: Oferta de consultoria avulsa com urgência para fechar rápido','Estratégia 3: Parceria com agências de viagem (comissão por indicação)','Estratégia 4: Post de lançamento no Instagram com CTA direto','Meta: 5 clientes de gestão em 30 dias = R$25k recorrente','Funil: lista de 100 contatos → abordar 30 → fechar 5']},
+    {id:'t2',titulo:'4 Crenças que bloqueiam dinheiro',desc:'Mentalidade para superar os bloqueios mais comuns.',itens:['1. Síndrome da pandemia: achar que vender é fácil e instantâneo','2. Síndrome do especialista: achar que precisa saber tudo antes de começar','3. Síndrome da vítima: culpar mercado, momento, produto, economia','4. Síndrome do perfeito: esperar o momento ideal que nunca chega']},
+    {id:'t3',titulo:'Planejamento mensal por fase',desc:'Volume de prospecção por quantidade de seguidores.',itens:['0 a 500 seguidores: foco total em networking e indicações','500 a 1k: começar conteúdo + prospecção ativa','1k a 5k: conteúdo consistente + impulsionamento','5k a 10k: parcerias + consolidação de autoridade','Acima de 10k: escala via influência e ads']},
+  ]},
+  {id:'gestao',nome:'Gestão e Produtividade',icon:'📋',cor:'#5F5E5A',bg:'#F1EFE8',tc:'#2C2C2A',topicos:[
+    {id:'t1',titulo:'Stack de ferramentas',desc:'Ferramentas essenciais para operação profissional.',itens:['Notion: base de clientes + pontos + financeiro + CRM','1Password: armazenar todas as senhas dos clientes','Agente Pro: CRM + financeiro + atendimento integrado','Google Agenda: organizar calls e compromissos','Hfio: atendimento + site Vooemilhas','Digisac: comunicação integrada multicanal']},
+    {id:'t2',titulo:'Blocos fixos de trabalho',desc:'Como organizar o dia para não misturar operacional com comercial.',itens:['Manhã: rotina fixa (CRM, check-in, pontos, alertas antes de 12h)','Tarde: operacional esporádico (cotações, emissões, demandas)','Noite: check-in final + planejamento do dia seguinte','Blocos comerciais: prospecção e calls de venda em horários fixos','Regra de ouro: nunca misturar operacional com comercial no mesmo bloco']},
+    {id:'t3',titulo:'CRM — 9 fases no Notion',desc:'As 9 fases obrigatórias para acompanhar cada cliente.',itens:['1. Formulário Preenchido','2. Montar Estratégia','3. Criar Canva','4. Agendar Call','5. Aguardando Call','6. Subir Detalhes da Call','7. Acompanhar Solicitação do Cartão','8. Refazer Estratégia','9. Concluído']},
+  ]},
+  {id:'burocracia',nome:'Burocracias',icon:'📑',cor:'#444441',bg:'#F1EFE8',tc:'#2C2C2A',topicos:[
+    {id:'t1',titulo:'Abertura de empresa',desc:'Estrutura jurídica recomendada para o gestor de milhas.',itens:['MEI não recomendado (limite R$81k/ano)','Recomendado: ME ou SLU','CNAE 6619-3/99 — atividades auxiliares de serviços financeiros','CNAE 7490-1/04 — intermediação e agenciamento','Conta PJ: Nubank PJ, Inter ou Itaú']},
+    {id:'t2',titulo:'Contratos e segurança jurídica',desc:'Proteção legal mínima para o negócio.',itens:['Contrato de prestação de serviços (12 meses)','Cláusulas de confidencialidade (senhas e dados do cliente)','Política de cancelamento e reembolso clara','Prazo mínimo de 3 meses para gestão','Forma de pagamento e recorrência especificada']},
+    {id:'t3',titulo:'Sistemas de cobrança automática',desc:'Como receber de forma recorrente e profissional.',itens:['Stripe: cobrança recorrente em cartão de crédito','Hotmart: recorrência + checkout otimizado','Iugu: boleto e cartão com recorrência','Mercado Pago: link de pagamento e recorrência','Lastlink: Travel e produtos digitais (comissão automática 50%)']},
+    {id:'t4',titulo:'Operacional no Notion — módulo completo',desc:'Configuração completa do Notion como hub operacional.',itens:['Base de clientes com todas as informações','Quadro de demandas por cliente e status','Controle de pontuação, saldos e programas','Emissões com milhas e com agência (campos obrigatórios)','Transferência e compra de pontos (controle de CPM com bônus)','Monitoramento de interesse de viagens e Google Voos','Atualização de saldo: mensal, comparar Notion vs programa real']},
+  ]},
+  {id:'sucesso',nome:'Sucesso do Cliente',icon:'⭐',cor:'#3B6D11',bg:'#EAF3DE',tc:'#173404',topicos:[
+    {id:'t1',titulo:'ROI rápido em 30 dias',desc:'Como gerar resultado concreto e visível no primeiro mês.',itens:['Primeira emissão com impacto visual (executiva com desconto)','Usar tabelas fixas LATAM Pass e TAP Miles&Go para resultado imediato','Mostrar economia em reais (não em milhas)','Enviar relatório visual de economia no 30° dia','Kit de boas-vindas + cartinha personalizada no onboarding']},
+    {id:'t2',titulo:'Fluxo de sucesso 3 · 6 · 9 meses',desc:'O que fazer em cada marco do contrato para fidelizar e renovar.',itens:['3 meses: primeira emissão realizada · cliente engajado · solicitar indicação','6 meses: revisão de estratégia · upgrade de cartão · expansão do portfólio','9 meses: proposta de renovação · novo ciclo · avaliação de upgrade de plano','Relatório mensal de pontos (dias 1-5) + reunião de revisão trimestral','NPS e feedback: pesquisa de satisfação trimestral']},
+    {id:'t3',titulo:'Mimo Hotel — encantamento na viagem',desc:'Como surpreender o cliente durante as viagens.',itens:['Ligar no hotel antes do check-in','Solicitar amenical + cartinha personalizada da empresa no quarto','Pedir mimo especial (champagne, flores, upgrade se disponível)','Roteiro de viagem surpresa personalizado por destino','Este gesto gera indicação espontânea e renovação automática']},
+    {id:'t4',titulo:'Sistemas de recorrência e previsibilidade',desc:'Como garantir receita previsível todo mês.',itens:['Cobrança automática no cartão (Stripe / Iugu / Hotmart)','Relatório mensal enviado nos dias 1-5','Reunião de revisão trimestral obrigatória','Política de renovação: avisar 60 dias antes do vencimento','Previsibilidade: saber quantos clientes renovam por mês']},
+  ]},
+  {id:'conciliando',nome:'Conciliando Modelos',icon:'🔗',cor:'#534AB7',bg:'#EEEDFE',tc:'#26215C',topicos:[
+    {id:'t1',titulo:'Agência + Gestão — sinergia',desc:'Como os dois modelos se complementam e se alimentam.',itens:['Cliente de agência vira cliente de gestão e vice-versa','Cliente de gestão gera receita adicional via agência (hotel, seguro, transfer, cruzeiro)','Mesmo WhatsApp para atendimento, abordagens distintas por produto','Separação de CNPJs: agência em um, gestão em outro','Ariel prospecta B2B · Luma e Ariel fazem gestão · Henrique opera agência']},
+    {id:'t2',titulo:'Operacional Express',desc:'Fluxo simplificado para quem já tem agência.',itens:['Não duplicar processos — usar infraestrutura existente','Notion como hub central para as duas operações','Comunicação integrada mas abordagem distinta por produto','Separar financeiro por CNPJ desde o início','Meta de escala: Ariel prospecta, Luma gerencia, Henrique opera']},
+    {id:'t3',titulo:'Notion como hub central',desc:'Como usar o Notion para unificar as duas operações.',itens:['Base de clientes unificada com tag por serviço (agência vs gestão)','Quadro de demandas compartilhado com filtros por produto','Controle financeiro separado por CNPJ','Relatórios mensais por cliente e por produto','Emissões separadas por fonte (milhas vs agência vs pacote)']},
+  ]},
+];
+
+const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
+const ld=(k,d)=>{try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch{return d;}};
+
+let S={
+  auth:false,
+  tab:'p',
+  pilares:ld('fgm_pilares',null)||JSON.parse(JSON.stringify(DEF)),
+  prog:ld('fgm_prog',{}),
+  sel:'comece',
+  open:{},
+  modal:null,
+};
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2100);}
+
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+function render(){
+  const r=document.getElementById('root');
+  if(!S.auth){r.innerHTML=loginHTML();setTimeout(()=>document.getElementById('pw')?.focus(),50);return;}
+  r.innerHTML=`
+    <nav class="nav"><div class="nav-inner">
+      <div class="logo"><div class="logo-icon">✈️</div><span class="logo-text">Formação Gestor de Milhas</span><span class="logo-badge">v1.0</span></div>
+      <div class="nav-btns">
+        <button class="nav-btn ${S.tab==='p'?'active':''}" onclick="go('p')">Pilares</button>
+        <button class="nav-btn ${S.tab==='c'?'active':''}" onclick="go('c')">Config</button>
+        <button class="exit-btn" onclick="sair()">Sair</button>
+      </div>
+    </div></nav>
+    <div class="main">${S.tab==='p'?pilaresHTML():configHTML()}</div>
+    ${S.modal?modalHTML():''}
+  `;
+}
+
+function loginHTML(){return`
+  <div class="login-screen"><div class="login-box">
+    <div class="l-icon">✈️</div>
+    <h1 style="font-size:20px;font-weight:600;margin-bottom:4px">Formação Gestor de Milhas</h1>
+    <p style="font-size:13px;color:#64748b;margin-bottom:24px">Acesso restrito</p>
+    <div class="l-card">
+      <label style="font-size:11px;color:#64748b;display:block;margin-bottom:6px">Senha de acesso</label>
+      <input class="l-input" type="password" id="pw" placeholder="Digite a senha..." onkeydown="if(event.key==='Enter')login()"/>
+      <div class="l-err" id="lerr">Senha incorreta.</div>
+      <button class="l-btn" onclick="login()">Entrar</button>
+    </div>
+  </div></div>
+`;}
+
+function pilaresHTML(){
+  const p=S.pilares.find(x=>x.id===S.sel)||S.pilares[0];
+  const done=p.topicos.filter(t=>S.prog[p.id+'_'+t.id]).length;
+  const tot=p.topicos.length;
+  const pct=tot?Math.round(done/tot*100):0;
+  return`
+    <div class="pill-tabs">${S.pilares.map(x=>`
+      <button class="pill" style="${S.sel===x.id?`background:${x.bg};border-color:${x.cor};color:${x.tc};font-weight:500`:''}" onclick="sel('${x.id}')">${x.icon} ${x.nome}</button>
+    `).join('')}</div>
+    <div class="pilar-card">
+      <div class="pilar-header">
+        <span class="pilar-icon">${p.icon}</span>
+        <span class="pilar-title">${p.nome}</span>
+        <span class="pilar-count" style="background:${p.bg};color:${p.tc}">${done}/${tot} · ${pct}%</span>
+      </div>
+      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%;background:${p.cor}"></div></div>
+      ${p.topicos.map((t,i)=>topicoHTML(p,t,i)).join('')}
+      <button class="add-topico" onclick="openModal('add','${p.id}')">+ Adicionar tópico</button>
+    </div>
+  `;
+}
+
+function topicoHTML(p,t,i){
+  const key=p.id+'_'+t.id;
+  const done=!!S.prog[key];
+  const open=!!S.open[key];
+  return`
+    <div class="topico">
+      <div class="topico-header" onclick="toggle('${key}')">
+        <div class="check ${done?'done':''}" onclick="event.stopPropagation();chk('${key}')">${done?'✓':''}</div>
+        <span class="topico-title" style="${done?'text-decoration:line-through;color:#94a3b8':''}">${esc(t.titulo)}</span>
+        <span class="topico-arrow" style="${open?'transform:rotate(90deg)':''}">›</span>
+      </div>
+      <div class="topico-body ${open?'open':''}">
+        ${t.desc?`<p class="topico-desc">${esc(t.desc)}</p>`:''}
+        ${(t.itens||[]).map(it=>`<div class="item-line" style="border-left:2px solid ${p.cor}44">${esc(it)}</div>`).join('')}
+        <div class="admin-row">
+          <button class="abtn" onclick="openModal('edit','${p.id}','${t.id}')">✏️ Editar</button>
+          <button class="abtn" style="margin-left:auto" onclick="mover('${p.id}',${i},-1)">↑</button>
+          <button class="abtn" onclick="mover('${p.id}',${i},1)">↓</button>
+          <button class="abtn danger" onclick="del('${p.id}','${t.id}')">🗑</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function configHTML(){return`
+  <div style="padding-top:16px">
+    <div class="stag">🔒 Trocar senha</div>
+    <div class="c-card">
+      <div class="field"><label>Senha atual</label><input type="password" id="op"/></div>
+      <div class="field"><label>Nova senha</label><input type="password" id="np"/></div>
+      <div class="field"><label>Confirmar</label><input type="password" id="cp"/></div>
+      <div id="pwmsg" style="font-size:12px;margin-bottom:10px"></div>
+      <button class="btn-p" onclick="trocaSenha()">Alterar senha</button>
+    </div>
+    <div class="stag">🔄 Restaurar dados</div>
+    <div class="c-card">
+      <p style="font-size:12px;color:#64748b;margin-bottom:12px;line-height:1.6">Restaura o conteúdo original sem apagar o progresso.</p>
+      ${DEF.map(p=>`<div class="rrow"><span style="font-size:12px">${p.icon} ${p.nome}</span><button class="rbtn" onclick="rest('${p.id}')">Restaurar</button></div>`).join('')}
+      <button class="r-all" onclick="rest('todos')">⚠️ Restaurar tudo de uma vez</button>
+    </div>
+    <div class="stag">ℹ️ Sobre</div>
+    <div class="c-card">
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">Formação Gestor de Milhas v1.0</div>
+      <div style="font-size:11px;color:#64748b;line-height:1.8">@formacaogestordemilhas · 10 pilares · +40 módulos<br>Acesso protegido por senha · Dados salvos no dispositivo</div>
+    </div>
+  </div>
+`;}
+
+function modalHTML(){
+  const m=S.modal;
+  const p=S.pilares.find(x=>x.id===m.pid);
+  const t=m.type==='edit'?p?.topicos.find(x=>x.id===m.tid):null;
+  return`
+    <div class="modal-bg" onclick="closeModal()"><div class="modal" onclick="event.stopPropagation()">
+      <div class="modal-title">${m.type==='add'?'Novo tópico':'Editar tópico'}</div>
+      <div class="field"><label>Título</label><input type="text" id="mt" value="${t?esc(t.titulo):''}"/></div>
+      <div class="field"><label>Descrição</label><textarea id="md">${t?esc(t.desc||')':'}'}</textarea></div>
+      <div class="field"><label>Itens (um por linha)</label><textarea id="mi">${t?(t.itens||[]).map(esc).join('\n'):''}</textarea></div>
+      <div class="mfooter">
+        <button class="btn-p" onclick="salvar()">Salvar</button>
+        <button class="btn-c" onclick="closeModal()">Cancelar</button>
+      </div>
+    </div></div>
+  `;
+}
+
+window.login=()=>{
+  const pw=document.getElementById('pw')?.value;
+  const cur=ld('fgm_pw','123456');
+  if(pw===cur){S.auth=true;render();}
+  else{const e=document.getElementById('lerr');if(e)e.style.display='block';}
+};
+window.sair=()=>{S.auth=false;render();};
+window.go=(t)=>{S.tab=t;S.modal=null;render();};
+window.sel=(id)=>{S.sel=id;S.open={};S.modal=null;render();};
+window.toggle=(key)=>{S.open={...S.open,[key]:!S.open[key]};render();};
+window.chk=(key)=>{S.prog={...S.prog,[key]:!S.prog[key]};sv('fgm_prog',S.prog);render();};
+window.openModal=(type,pid,tid)=>{S.modal={type,pid,tid};render();};
+window.closeModal=()=>{S.modal=null;render();};
+window.mover=(pid,i,d)=>{
+  S.pilares=S.pilares.map(p=>{
+    if(p.id!==pid)return p;
+    const ts=[...p.topicos];const ni=i+d;
+    if(ni<0||ni>=ts.length)return p;
+    [ts[i],ts[ni]]=[ts[ni],ts[i]];
+    return{...p,topicos:ts};
+  });
+  sv('fgm_pilares',S.pilares);render();
+};
+window.del=(pid,tid)=>{
+  if(!confirm('Excluir este tópico? Não é possível desfazer.'))return;
+  S.pilares=S.pilares.map(p=>p.id!==pid?p:{...p,topicos:p.topicos.filter(t=>t.id!==tid)});
+  sv('fgm_pilares',S.pilares);toast('🗑 Excluído');render();
+};
+window.salvar=()=>{
+  const titulo=document.getElementById('mt')?.value?.trim();
+  if(!titulo)return;
+  const desc=document.getElementById('md')?.value?.trim()||'';
+  const itens=(document.getElementById('mi')?.value||'').split('\n').map(s=>s.trim()).filter(Boolean);
+  const m=S.modal;
+  S.pilares=S.pilares.map(p=>{
+    if(p.id!==m.pid)return p;
+    const ts=m.type==='add'?[...p.topicos,{id:'t'+Date.now(),titulo,desc,itens}]:p.topicos.map(t=>t.id===m.tid?{...t,titulo,desc,itens}:t);
+    return{...p,topicos:ts};
+  });
+  sv('fgm_pilares',S.pilares);S.modal=null;toast('✅ Salvo!');render();
+};
+window.rest=(id)=>{
+  if(!confirm(id==='todos'?'Restaurar TODOS os pilares?':`Restaurar ${id}?`))return;
+  if(id==='todos'){S.pilares=JSON.parse(JSON.stringify(DEF));}
+  else{const orig=DEF.find(p=>p.id===id);if(!orig)return;S.pilares=S.pilares.map(p=>p.id===id?JSON.parse(JSON.stringify(orig)):p);}
+  sv('fgm_pilares',S.pilares);toast('✅ Restaurado!');render();
+};
+window.trocaSenha=()=>{
+  const o=document.getElementById('op')?.value,n=document.getElementById('np')?.value,c=document.getElementById('cp')?.value;
+  const cur=ld('fgm_pw','123456');
+  const msg=document.getElementById('pwmsg');
+  if(o!==cur){msg.textContent='❌ Senha atual incorreta.';msg.style.color='#A32D2D';return;}
+  if(n.length<4){msg.textContent='❌ Mínimo 4 caracteres.';msg.style.color='#A32D2D';return;}
+  if(n!==c){msg.textContent='❌ Senhas não coincidem.';msg.style.color='#A32D2D';return;}
+  sv('fgm_pw',n);msg.textContent='✅ Senha alterada!';msg.style.color='#1D9E75';
+};
+
+render();
+</script>
+</body>
+</html>
